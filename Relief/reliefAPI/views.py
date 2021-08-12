@@ -35,11 +35,20 @@ class VideoBookmarks(APIView):
         videos = videoLink.objects.all().filter(bookmark=True)
         serializer = videoSerializer(videos, many=True)
         return Response(serializer.data)
-
-
-#class BookmarkData(APIView):
-#
+    
 
 #This function update the value of the bookmarks
- #   def put(self, request, pk):
-  #      pass
+
+    def put(self, request):
+            bookmarkVideo = videoLink.objects.get(urlVideo=request.data["urlVideo"])
+            print("arriba de bookmark")
+            print(bookmarkVideo)
+            print("abajo de bookmark")
+            serializer = videoSerializer(bookmarkVideo, data=request.data)
+            print("arriba de serializer")
+            print(serializer)
+            print("abajo de serializer")
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
