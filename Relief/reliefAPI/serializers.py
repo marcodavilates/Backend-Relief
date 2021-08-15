@@ -6,5 +6,5 @@ from rest_framework import serializers
 class videoSerializer(serializers.ModelSerializer):
     class Meta:
         model = videoLink
-        fields = ["name","urlVideo","bookmark"]
+        fields = ["urlVideo","bookmark"]
         
