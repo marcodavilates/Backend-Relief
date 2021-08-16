@@ -10,6 +10,12 @@ from rest_framework import status
 
 class VideoHistory(APIView):
 
+#Search and specific video on the database
+    def search(self, url):
+        video = videoLink.objects.get(urlVideo=url)
+        return(videoSerializer(video))
+
+
 #If we got a GET request, the server'll send a list of all the history 
 
     def get(self, request):
@@ -25,7 +31,10 @@ class VideoHistory(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        videosearch = self.search(request.data['urlVideo'])
+        return Response(videosearch.data, status=status.HTTP_200_OK)
+
+
 
 
 #This function return a list of all the videos that has marked like bookmark, when the bolean field bookmark == True
